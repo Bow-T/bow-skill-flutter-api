@@ -61,8 +61,9 @@ class XModel {
 
 - Mọi field có `@JsonKey(name:)` tường minh; scalar nullable; list non-null + `defaultValue: []`.
 - Ngày, chuỗi đa ngôn ngữ (`{fr, en}`), duration đi qua converter có sẵn trong `Utilities` — đừng parse tay.
-- Enum từ server: converter PHẢI có đường lui (`firstWhereOrNull` hoặc `orElse`). `firstWhere` trần
-  (như `fromJsonDateType` hiện tại) gặp giá trị backend mới thêm là ném → hỏng parse CẢ response → màn trắng.
+- Enum từ server PHẢI có đường lui, nếu không backend thêm một giá trị mới là hỏng parse CẢ response → màn trắng:
+  enum `@JsonValue` → `@JsonKey(name: 'status', unknownEnumValue: XStatus.unknown)`;
+  converter tự viết → `firstWhereOrNull` / `orElse` (`firstWhere` trần như `fromJsonDateType` hiện tại là sai).
 
 **2. Body request** (`remote/body/x_body.dart`) — cùng annotation như model. Dựng bằng cascade;
 ngày gửi đi dạng UTC ISO như các VM đang làm:
@@ -149,6 +150,9 @@ Future<void> save() async {
 - 401, mất mạng, 500 đã có interceptor lo — VM không tự xử lại, không tự điều hướng về Signin.
 - Token/header do interceptor gắn — VM và service KHÔNG tự thêm `Authorization`.
 - Thao tác chặn cả màn (submit) → `showLoading()` / `hideLoading()` (dialog); tải dữ liệu trong màn → cờ `isLoading`.
+- Hàm submit mở đầu bằng `if (isLoading) return;` — bấm hai lần là hai request.
+- KHÔNG gắn retry tự động (`RetryInterceptor`) vào Dio chính: POST bị timeout KHÔNG có nghĩa là thất bại
+  (server có thể đã ghi), retry là tạo trùng lịch/đơn. Retry chỉ cho request idempotent (GET, PUT lên S3).
 
 ## 3. Danh sách phân trang (`infinite_scroll_pagination`)
 

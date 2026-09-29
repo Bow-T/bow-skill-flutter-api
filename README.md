@@ -8,9 +8,13 @@ dio + retrofit + json_serializable + `BaseResponse<T>` / `Pagination<T>` + mã l
 
 ```
 bow-skill-flutter-api/
-├── bow-skill.json          # manifest — skillsDir "skills"
+├── bow-skill.json                         # manifest — skillsDir "skills"
+├── THIRD_PARTY.md                         # nguồn + commit + license skill lấy ngoài, và danh sách đã loại
 └── skills/
-    └── flutter-api/        # thêm/sửa endpoint REST + gọi từ ViewModel
+    ├── flutter-api/                       # thêm/sửa endpoint REST + gọi từ ViewModel (của team)
+    ├── debugging-and-error-recovery/      # addyosmani/agent-skills, chỉnh cho Flutter + REST
+    ├── source-driven-development/         # addyosmani/agent-skills — bám tài liệu gốc đúng phiên bản
+    └── verification-before-completion/    # obra/superpowers — bằng chứng trước khi báo xong
 ```
 
 ## Đăng ký vào bow-agent
@@ -18,7 +22,7 @@ bow-skill-flutter-api/
 Thêm vào `stacks` của `~/.bow-agent/registry.json`:
 
 ```json
-{ "id": "flutter-api", "label": "Flutter + API", "repo": "github.com/Bow-T/bow-skill-flutter-api", "ref": "v0.1.0" }
+{ "id": "flutter-api", "label": "Flutter + API", "repo": "github.com/Bow-T/bow-skill-flutter-api", "ref": "v0.2.0" }
 ```
 
 Thử local trước khi đẩy GitHub: `"repo": "file:///đường/dẫn/tới/bow-skill-flutter-api"`.
