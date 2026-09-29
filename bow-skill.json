@@ -1,0 +1,12 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Bow-T/bow-agent/main/schema/bow-skill.schema.json",
+  "id": "flutter-api",
+  "label": "Flutter + API",
+  "version": "0.1.0",
+  "description": "Bộ skill cho stack Flutter + REST API (backend riêng, KHÔNG Supabase): dio + retrofit + json_serializable + BaseResponse<T>. Bản thử — khuôn rút từ repo spaurt.",
+  "maintainer": "team-flutter",
+  "skillsDir": "skills",
+  "skills": [
+    "flutter-api"
+  ]
+}
