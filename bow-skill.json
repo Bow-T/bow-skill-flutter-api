@@ -2,8 +2,8 @@
   "$schema": "https://raw.githubusercontent.com/Bow-T/bow-agent/main/schema/bow-skill.schema.json",
   "id": "flutter-api",
   "label": "Flutter + API",
-  "version": "0.2.0",
-  "description": "Bộ skill cho stack Flutter + REST API (backend riêng, KHÔNG Supabase): flutter-api (dio + retrofit + json_serializable + BaseResponse<T>, khuôn rút từ repo spaurt) + 3 skill kỷ luật agent lấy từ obra/superpowers và addyosmani/agent-skills (xem THIRD_PARTY.md).",
+  "version": "1.0.0",
+  "description": "Bộ skill cho stack Flutter + REST API (backend riêng, KHÔNG Supabase): flutter-api (dio + retrofit + json_serializable + BaseResponse<T>) + 3 skill kỷ luật agent lấy từ obra/superpowers và addyosmani/agent-skills (xem THIRD_PARTY.md).",
   "maintainer": "team-flutter",
   "skillsDir": "skills",
   "skills": [

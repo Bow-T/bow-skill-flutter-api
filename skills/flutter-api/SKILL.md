@@ -5,7 +5,7 @@ description: Add or change a REST endpoint in a Flutter app that talks to its OW
 
 # flutter-api — thêm/sửa endpoint REST đúng khuôn
 
-Khuôn của app Flutter nói chuyện với backend REST riêng (rút từ repo spaurt):
+Khuôn thường gặp của app Flutter nói chuyện với backend REST riêng:
 
 ```
 VM (BaseViewModel) ──api.xServices?.method()──► ApiClient: MỘT Dio + interceptor
@@ -18,7 +18,7 @@ VM (BaseViewModel) ──api.xServices?.method()──► ApiClient: MỘT Dio +
 
 ## 0. Đọc trước khi viết (bắt buộc)
 
-Tên file dưới đây là của spaurt. Repo khác lệch khuôn thì **theo repo**, đừng ép về khuôn này.
+Tên file dưới đây là khuôn tham chiếu. Repo lệch khuôn thì **theo repo**, đừng ép về khuôn này.
 
 | Việc | File |
 |---|---|
@@ -31,7 +31,8 @@ Tên file dưới đây là của spaurt. Repo khác lệch khuôn thì **theo r
 | VM gốc | `lib/src/base/base_vm.dart` |
 
 Tên endpoint, tên tham số, kiểu `data` lấy từ Swagger/Postman/code backend — **không đoán**.
-spaurt: query PascalCase (`PageIndex`), JSON camelCase (`routineIds`), path `api/<resource>`.
+Quy ước đặt tên lấy theo backend, không theo "chuẩn REST" chung — vd backend .NET hay dùng query PascalCase
+(`PageIndex`) nhưng JSON camelCase (`routineIds`); chép đúng như backend khai.
 
 ## 1. Thêm endpoint — theo thứ tự
 
@@ -63,7 +64,7 @@ class XModel {
 - Ngày, chuỗi đa ngôn ngữ (`{fr, en}`), duration đi qua converter có sẵn trong `Utilities` — đừng parse tay.
 - Enum từ server PHẢI có đường lui, nếu không backend thêm một giá trị mới là hỏng parse CẢ response → màn trắng:
   enum `@JsonValue` → `@JsonKey(name: 'status', unknownEnumValue: XStatus.unknown)`;
-  converter tự viết → `firstWhereOrNull` / `orElse` (`firstWhere` trần như `fromJsonDateType` hiện tại là sai).
+  converter tự viết → `firstWhereOrNull` / `orElse` (`firstWhere` trần là sai).
 
 **2. Body request** (`remote/body/x_body.dart`) — cùng annotation như model. Dựng bằng cascade;
 ngày gửi đi dạng UTC ISO như các VM đang làm:
@@ -101,8 +102,8 @@ field `XServices? xServices;` + `xServices = XServices(dio, baseUrl: AppConstant
 **Dùng `dio` của ApiClient** — Dio mới là mất token, Language, xử lý 401 và dịch lỗi.
 
 **5. Mã lỗi server mới** (backend trả `"message": "SOME_CODE"`): hằng trong `code_error.dart` → `case`
-trong `toLang` → key `errorCodeXxx` trong **MỌI** `intl_*.arb` (spaurt: `intl_fr.arb` là locale chính,
-thêm `intl_en.arb`). Thiếu một bước là người dùng thấy nguyên chuỗi `SOME_CODE`.
+trong `toLang` → key `errorCodeXxx` trong **MỌI** `intl_*.arb` (vd `intl_fr.arb` + `intl_en.arb`;
+locale chính khai ở `flutter_intl.main_locale` trong `pubspec.yaml`). Thiếu một bước là người dùng thấy nguyên chuỗi `SOME_CODE`.
 
 **6. Sinh code:**
 
@@ -116,8 +117,8 @@ Repo không dùng fvm thì bỏ tiền tố `fvm`. KHÔNG sửa tay `*.g.dart`.
 
 ## 2. Gọi từ ViewModel
 
-Theo kiểu file đang dùng (spaurt chủ yếu `.then/.catchError/.whenComplete`; `await` +
-`try / on DioException / finally` là tương đương):
+Theo kiểu file đang dùng — `.then/.catchError/.whenComplete` và `await` + `try / on DioException / finally`
+là tương đương:
 
 ```dart
 Future<void> save() async {
@@ -190,13 +191,13 @@ void dispose() {
 
 - Đăng ký listener trong **constructor**. Widget phân trang xin trang 1 ngay trong `initState`
   (đồng bộ), còn `onInit` chạy sau frame đầu → đăng ký ở `onInit` là trượt trang 1.
-- Code cũ override `addListener` để đăng ký — hàm đó chạy lại mỗi khi có listener mới ⇒ đăng ký trùng
-  ⇒ gọi API trùng. Code mới đừng chép.
+- Đừng override `addListener` để đăng ký (kiểu hay gặp trong code cũ) — hàm đó chạy lại mỗi khi có listener mới ⇒ đăng ký trùng
+  ⇒ gọi API trùng.
 - Làm mới: `paging.refresh()`.
 
 ## 4. Làm mới chéo màn (EventBus) — phải huỷ
 
-spaurt khai `EventBus` toàn cục trong file VM (`eventBusSchedule`, `eventBusAppUser`…).
+Kiểu hay gặp: `EventBus` toàn cục khai trong file VM (`eventBusSchedule`, `eventBusAppUser`…).
 `listen()` trả `StreamSubscription` — **giữ lại, cancel trong `dispose`**. Không cancel thì VM đã đóng
 vẫn nghe: mỗi lần mở lại màn thêm một listener, một sự kiện bắn N lần API.
 
