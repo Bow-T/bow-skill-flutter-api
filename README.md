@@ -17,12 +17,19 @@ bow-skill-flutter-api/
     └── verification-before-completion/    # obra/superpowers — bằng chứng trước khi báo xong
 ```
 
+## Tự nhận diện
+
+bow-agent tự tick bộ này cho dự án chưa khai công nghệ khi một `pubspec.yaml` đã track (ở gốc
+hoặc thư mục con) có chữ `retrofit` — dấu hiệu app gọi backend REST riêng theo khuôn dio + retrofit.
+App Flutter dùng Supabase không có gói này nên không khớp. Quy tắc nằm ở `targets.detect` trong
+`bow-skill.json`.
+
 ## Đăng ký vào bow-agent
 
 Thêm vào `stacks` của `~/.bow-agent/registry.json`:
 
 ```json
-{ "id": "flutter-api", "label": "Flutter + API", "repo": "github.com/Bow-T/bow-skill-flutter-api", "ref": "v1.0.0" }
+{ "id": "flutter-api", "label": "Flutter + API", "repo": "github.com/Bow-T/bow-skill-flutter-api", "ref": "v1.1.0" }
 ```
 
 Thử local trước khi đẩy GitHub: `"repo": "file:///đường/dẫn/tới/bow-skill-flutter-api"`.
