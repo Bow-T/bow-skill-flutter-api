@@ -20,9 +20,11 @@ bow-skill-flutter-api/
 ## Tự nhận diện
 
 bow-agent tự tick bộ này cho dự án chưa khai công nghệ khi một `pubspec.yaml` đã track (ở gốc
-hoặc thư mục con) có chữ `retrofit` — dấu hiệu app gọi backend REST riêng theo khuôn dio + retrofit.
-App Flutter dùng Supabase không có gói này nên không khớp. Quy tắc nằm ở `targets.detect` trong
-`bow-skill.json`.
+hoặc thư mục con) có gói `retrofit` hoặc `dio` — dấu hiệu app gọi backend REST riêng theo khuôn mà
+skill `flutter-api` mô tả. Quy tắc nằm ở `targets.detect` trong `bow-skill.json`.
+
+Giới hạn: app gọi REST bằng gói `http` (chưa chuyển sang dio + retrofit) KHÔNG khớp — không có dấu
+hiệu nào trong `pubspec.yaml` phân biệt nó với một app Flutter bất kỳ. Dự án như vậy tick bộ này bằng tay.
 
 ## Đăng ký vào bow-agent
 

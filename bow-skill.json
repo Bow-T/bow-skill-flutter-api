@@ -8,7 +8,8 @@
   "skillsDir": "skills",
   "targets": {
     "detect": [
-      { "file": "pubspec.yaml", "contains": "retrofit" }
+      { "file": "pubspec.yaml", "contains": "retrofit" },
+      { "file": "pubspec.yaml", "contains": "dio:" }
     ]
   },
   "skills": [
